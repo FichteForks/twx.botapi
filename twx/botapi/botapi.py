@@ -43,7 +43,7 @@ class User(_UserBase):
             first_name=result.get('first_name'),
             last_name=result.get('last_name'),
             username=result.get('username')
-            )
+        )
 
 
 _GroupChatBase = namedtuple('GroupChat', ['id', 'title'])
@@ -68,7 +68,7 @@ class GroupChat(_GroupChatBase):
         return GroupChat(
             id=result.get('id'),
             title=result.get('title')
-            )
+        )
 
 
 _MessageBase = namedtuple('Message', [
@@ -159,7 +159,7 @@ class Message(_MessageBase):
             new_chat_photo=result.get('new_chat_photo'),
             delete_chat_photo=result.get('delete_chat_photo'),
             group_chat_created=result.get('group_chat_created')
-            )
+        )
 
 
 _PhotoSizeBase = namedtuple('PhotoSize', ['file_id', 'width', 'height', 'file_size'])
@@ -187,7 +187,7 @@ class PhotoSize(_PhotoSizeBase):
             width=result.get('width'),
             height=result.get('height'),
             file_size=result.get('file_size')
-            )
+        )
 
 
 _AudioBase = namedtuple('Audio', ['file_id', 'duration', 'mime_type', 'file_size'])
@@ -218,7 +218,7 @@ class Audio(_AudioBase):
             duration=result.get('duration'),
             mime_type=result.get('mime_type'),
             file_size=result.get('file_size')
-            )
+        )
 
 
 _DocumentBase = namedtuple('Document', ['file_id', 'thumb', 'file_name', 'mime_type', 'file_size'])
@@ -249,7 +249,7 @@ class Document(_DocumentBase):
             file_name=result.get('file_name'),
             mime_type=result.get('mime_type'),
             file_size=result.get('file_size')
-            )
+        )
 
 
 _StickerBase = namedtuple('Sticker', ['file_id', 'width', 'height', 'thumb', 'file_size'])
@@ -280,7 +280,7 @@ class Sticker(_StickerBase):
             height=result.get('height'),
             thumb=PhotoSize.from_result(result.get('thumb')),
             file_size=result.get('file_size')
-            )
+        )
 
 
 _VideoBase = namedtuple('Video', [
@@ -315,8 +315,9 @@ class Video(_VideoBase):
             duration=result.get('duration'),
             thumb=PhotoSize.from_result(result.get('thumb')),
             mime_type=result.get('mime_type'),
-            file_size=result.get('file_size')
-            )
+            file_size=result.get('file_size'),
+            caption=result.get('caption')
+        )
 
 
 _VoiceBase = namedtuple('Audio', ['file_id', 'duration', 'mime_type', 'file_size'])
@@ -374,7 +375,7 @@ class Contact(_ContactBase):
             first_name=result.get('first_name'),
             last_name=result.get('last_name'),
             user_id=result.get('user_id')
-            )
+        )
 
 
 _LocationBase = namedtuple('Location', ['longitude', 'latitude'])
@@ -399,7 +400,7 @@ class Location(_LocationBase):
         return Location(
             longitude=result.get('longitude'),
             latitude=result.get('latitude')
-            )
+        )
 
 
 _UpdateBase = namedtuple('Update', ['update_id', 'message'])
@@ -500,7 +501,7 @@ class UserProfilePhotos(_UserProfilePhotosBase):
         return UserProfilePhotos(
             total_count=result.get('total_count'),
             photos=photos
-            )
+        )
 
 
 _File = namedtuple('File', ['file_id', 'file_size', 'file_path'])
@@ -635,7 +636,7 @@ class ReplyKeyboardHide(_ReplyKeyboardHideBase, ReplyMarkup):
     def serialize(self):
         reply_markup = dict(
             hide_keyboard=True
-            )
+        )
 
         if self.selective is not None:
             reply_markup['selective'] = bool(self.selective)
@@ -1520,10 +1521,10 @@ def get_updates(offset=None, limit=None, timeout=None,
     """
     # optional parameters
     params = _clean_params(
-            offset=offset,
-            limit=limit,
-            timeout=timeout
-        )
+        offset=offset,
+        limit=limit,
+        timeout=timeout
+    )
 
     return TelegramBotRPCRequest('getUpdates', params=params, on_result=Update.from_result, **kwargs)
 
